@@ -22,6 +22,19 @@ class SearchInputController extends Notifier<SearchInput> {
       state = (text: state.text, filters: filters);
 }
 
+/// Incremented when something (e.g. double-tapping the Search tab) asks the
+/// search field to take focus.
+class SearchFocusRequest extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  void request() => state++;
+}
+
+final searchFocusRequestProvider = NotifierProvider<SearchFocusRequest, int>(
+  SearchFocusRequest.new,
+);
+
 final searchInputProvider =
     NotifierProvider<SearchInputController, SearchInput>(
       SearchInputController.new,
@@ -49,6 +62,7 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   final _controller = TextEditingController();
+  final _focusNode = FocusNode();
   Timer? _debounce;
 
   @override
@@ -61,6 +75,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   void dispose() {
     _debounce?.cancel();
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -87,6 +102,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(searchFocusRequestProvider, (_, _) => _focusNode.requestFocus());
     final input = ref.watch(searchInputProvider);
     final hasQuery = input.text.isNotEmpty || input.filters.isActive;
 
@@ -114,6 +130,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
             child: SearchBar(
               controller: _controller,
+              focusNode: _focusNode,
               hintText: context.l10n.searchHint,
               leading: const Icon(Icons.search),
               textInputAction: TextInputAction.search,

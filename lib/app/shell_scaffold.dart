@@ -1,17 +1,48 @@
+import 'package:clock/clock.dart';
 import 'package:codedbykay_art_explorer/core/providers.dart';
+import 'package:codedbykay_art_explorer/features/search/search_screen.dart';
 import 'package:codedbykay_art_explorer/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// Bottom navigation shell with an offline banner.
-class ShellScaffold extends ConsumerWidget {
+class ShellScaffold extends ConsumerStatefulWidget {
   const ShellScaffold({required this.shell, super.key});
 
   final StatefulNavigationShell shell;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ShellScaffold> createState() => _ShellScaffoldState();
+}
+
+class _ShellScaffoldState extends ConsumerState<ShellScaffold> {
+  static const _searchIndex = 1;
+  static const _doubleTapWindow = Duration(milliseconds: 500);
+
+  DateTime? _lastSearchTap;
+
+  void _onDestinationSelected(int index) {
+    final shell = widget.shell;
+    if (index == _searchIndex) {
+      final now = clock.now();
+      final last = _lastSearchTap;
+      // A second tap on Search shortly after the first opens the keyboard.
+      final isDoubleTap =
+          last != null && now.difference(last) < _doubleTapWindow;
+      _lastSearchTap = isDoubleTap ? null : now;
+      if (isDoubleTap) {
+        ref.read(searchFocusRequestProvider.notifier).request();
+      }
+    } else {
+      _lastSearchTap = null;
+    }
+    shell.goBranch(index, initialLocation: index == shell.currentIndex);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final shell = widget.shell;
     final l10n = AppLocalizations.of(context);
     final online = ref.watch(isOnlineProvider).value ?? true;
 
@@ -43,8 +74,7 @@ class ShellScaffold extends ConsumerWidget {
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: shell.currentIndex,
-        onDestinationSelected: (i) =>
-            shell.goBranch(i, initialLocation: i == shell.currentIndex),
+        onDestinationSelected: _onDestinationSelected,
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.explore_outlined),
