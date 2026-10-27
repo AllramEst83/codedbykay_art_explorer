@@ -1,0 +1,262 @@
+{
+  "@@locale": "en",
+  "appTitle": "Art Explorer",
+  "tabDiscover": "Discover",
+  "tabSearch": "Search",
+  "tabBookmarks": "Bookmarks",
+  "tabSettings": "Settings",
+  "offlineBanner": "You're offline. Showing saved content only.",
+  "retry": "Retry",
+  "cancel": "Cancel",
+  "save": "Save",
+  "clear": "Clear",
+  "reset": "Reset",
+  "apply": "Apply",
+  "more": "More",
+  "searchTitle": "Search",
+  "searchHint": "Artists, subjects, movements…",
+  "filters": "Filters",
+  "recent": "Recent",
+  "trySearching": "Try searching for",
+  "resultsCount": "{count} results",
+  "@resultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "worksCount": "{count} works",
+  "@worksCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noArtworkFound": "No artwork found",
+  "noArtworkFoundHint": "Try a different search or fewer filters.",
+  "noWorksFound": "No works found",
+  "noWorksFoundHint": "There are no digitised works for this creator.",
+  "endOfResults": "End of results",
+  "filterYear": "Year: {from} – {to}",
+  "@filterYear": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      }
+    }
+  },
+  "country": "Country",
+  "anyCountry": "Any country",
+  "openLicenseOnly": "Openly licensed only",
+  "openLicenseHint": "Public domain and Creative Commons",
+  "read": "Read",
+  "view": "View",
+  "source": "Source",
+  "bookmark": "Bookmark",
+  "removeBookmark": "Remove bookmark",
+  "bookmarked": "Bookmarked",
+  "share": "Share",
+  "savedToBookmarks": "Saved to bookmarks",
+  "removedBookmark": "Removed bookmark",
+  "moreLikeThis": "More like this",
+  "rightsAttribution": "Rights & attribution",
+  "providedBy": "Provided by {provider} via Europeana",
+  "@providedBy": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "couldNotLoadDetails": "Could not load full details.",
+  "couldNotOpenLink": "Could not open the link",
+  "medium": "Medium",
+  "dimensions": "Dimensions",
+  "place": "Place",
+  "readMoreWikipedia": "Read more on Wikipedia",
+  "noBiography": "No biography available.",
+  "reader": "Reader",
+  "readAloud": "Read aloud",
+  "stopReading": "Stop reading aloud",
+  "readAloudUnavailable": "Read-aloud is not available",
+  "readingSettings": "Reading settings",
+  "background": "Background",
+  "fontSize": "Font size: {size}",
+  "@fontSize": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "font": "Font",
+  "lineSpacing": "Line spacing: {value}",
+  "@lineSpacing": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "margins": "Margins: {value}",
+  "@margins": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "noDescription": "No written description is available for this work.",
+  "themePaper": "Paper",
+  "themeSepia": "Sepia",
+  "themeNight": "Night",
+  "backgroundLabel": "{name} background",
+  "@backgroundLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutThisWork": "About this work",
+  "aboutTheArtist": "About the artist",
+  "subjects": "Subjects",
+  "bookmarksTitle": "Bookmarks",
+  "noBookmarks": "No bookmarks yet",
+  "noBookmarksHint": "Tap the bookmark icon on any artwork to save it here.",
+  "searchBookmarks": "Search bookmarks",
+  "noMatchingBookmarks": "No matching bookmarks",
+  "all": "All",
+  "sortNewest": "Newest first",
+  "sortOldest": "Oldest first",
+  "sortTitle": "Title A–Z",
+  "sort": "Sort",
+  "listView": "List view",
+  "gridView": "Grid view",
+  "addToCollection": "Add to collection",
+  "newCollection": "New collection",
+  "removeFromCollection": "Remove from collection",
+  "bookmarkRemoved": "Bookmark removed",
+  "undo": "Undo",
+  "discoverTitle": "Discover",
+  "surpriseMe": "Surprise me",
+  "surpriseFailed": "Could not find a surprise. Try again.",
+  "artworkOfTheDay": "Artwork of the day",
+  "retryArtworkOfTheDay": "Retry artwork of the day",
+  "pickUp": "Pick up where you left off",
+  "movements": "Movements",
+  "themes": "Themes",
+  "byCentury": "By century",
+  "byCountry": "By country",
+  "moreTopic": "More {topic}",
+  "@moreTopic": {
+    "placeholders": {
+      "topic": {
+        "type": "String"
+      }
+    }
+  },
+  "artOfCentury": "Art of the {century}",
+  "@artOfCentury": {
+    "placeholders": {
+      "century": {
+        "type": "String"
+      }
+    }
+  },
+  "exploreFooter": "Images and metadata via Europeana. Rights vary by item; rows here show openly licensed works.",
+  "settingsTitle": "Settings",
+  "appearance": "Appearance",
+  "systemDefault": "System default",
+  "light": "Light",
+  "dark": "Dark",
+  "language": "Language",
+  "readerSection": "Reader",
+  "defaultReadingStyle": "Default reading style",
+  "defaultReadingStyleHint": "Background, font, size and spacing",
+  "sources": "Sources",
+  "enabled": "Enabled",
+  "data": "Data",
+  "clearHistory": "Clear viewing history",
+  "historyCleared": "History cleared",
+  "clearImageCache": "Clear image cache",
+  "imageCacheCleared": "Image cache cleared",
+  "about": "About",
+  "aboutBody": "Artwork metadata and images come from Europeana and its data providers. Each item shows its own rights statement. Biographies come from Wikipedia (CC BY-SA).",
+  "licensesHint": "Tap above to view open-source licenses.",
+  "errNetwork": "No connection. Check your network and retry.",
+  "errRateLimit": "Too many requests. Please wait a moment and retry.",
+  "errNotFound": "Nothing found.",
+  "errParse": "The server sent data we could not read.",
+  "errUnknown": "Something went wrong. Please retry.",
+  "factBy": "By {names}.",
+  "@factBy": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "factDated": "Dated {date}.",
+  "@factDated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "factMedium": "Medium: {value}.",
+  "@factMedium": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "factDimensions": "Dimensions: {value}.",
+  "@factDimensions": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "factPlace": "Place: {value}.",
+  "@factPlace": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "descriptionFrom": "Description from {provider}",
+  "@descriptionFrom": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "zoomableImage": "Zoomable image of {title}",
+  "@zoomableImage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "openFullScreen": "Open full screen image of {title}",
+  "@openFullScreen": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "languageSystem": "System default"
+}

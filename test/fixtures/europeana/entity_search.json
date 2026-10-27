@@ -1,0 +1,437 @@
+{
+    "@context": "https://api.europeana.eu/schema/context/entity.jsonld",
+    "id": "https://api.europeana.eu/entity/search?query=Claude%20Monet&type=agent&language=en&page=1&pageSize=2",
+    "type": "ResultPage",
+    "total": 2,
+    "partOf": {
+        "id": "https://api.europeana.eu/entity/search?query=Claude%20Monet&type=agent&language=en",
+        "type": "ResultList",
+        "total": 2
+    },
+    "items": [
+        {
+            "id": "http://data.europeana.eu/agent/59908",
+            "type": "Agent",
+            "isShownBy": {
+                "id": "https://www.dropbox.com/s/jwbisac6o4i36f8/FR_Le%20jardin%20de%20l%27artiste%20%C3%A0%20Giverny_10-532724.jpg?raw=1",
+                "type": "WebResource",
+                "source": "http://data.europeana.eu/item/2063621/FRA_280_007",
+                "thumbnail": "https://api.europeana.eu/api/v2/thumbnail-by-url.json?uri=https%3A%2F%2Fwww.dropbox.com%2Fs%2Fjwbisac6o4i36f8%2FFR_Le%2520jardin%2520de%2520l%2527artiste%2520%25C3%25A0%2520Giverny_10-532724.jpg%3Fraw%3D1&type=IMAGE"
+            },
+            "prefLabel": {
+                "bg": "Клод Моне",
+                "ca": "Claude Monet",
+                "cs": "Claude Monet",
+                "da": "Claude Monet",
+                "de": "Claude Monet",
+                "el": "Κλοντ Μονέ",
+                "en": "Claude Monet",
+                "es": "Claude Monet",
+                "et": "Claude Monet",
+                "eu": "Claude Monet",
+                "fi": "Claude Monet",
+                "fr": "Claude Monet",
+                "ga": "Claude Monet",
+                "hr": "Claude Monet",
+                "hu": "Claude Monet",
+                "it": "Claude Monet",
+                "lt": "Claude Monet",
+                "lv": "Klods Monē",
+                "mt": "Claude Monet",
+                "nl": "Claude Monet",
+                "no": "Claude Monet",
+                "pl": "Claude Monet",
+                "pt": "Claude Monet",
+                "ro": "Claude Monet",
+                "ru": "Клод Моне",
+                "sk": "Claude Monet",
+                "sl": "Claude Monet",
+                "sv": "Claude Monet"
+            },
+            "altLabel": {
+                "cs": [
+                    "Claude Oscar Monet",
+                    "Oscar-Claude Monet",
+                    "Klod Mone"
+                ],
+                "da": [
+                    "Claude Oscar Monet"
+                ],
+                "en": [
+                    "Monet claude",
+                    "Claude Jean Monet",
+                    "Cl. Monet",
+                    "Monet c.",
+                    "Oscar-Claude Monet",
+                    "Claude oscar monet",
+                    "C. Monet",
+                    "Claude-Oscar Monet",
+                    "Monet",
+                    "Oscar Claude Monet",
+                    "Claude Oscar Monet",
+                    "Klod Mone"
+                ],
+                "es": [
+                    "Monet",
+                    "Claude Oscar Monet",
+                    "Oscar-Claude Monet"
+                ],
+                "fi": [
+                    "Claude Oscar Monet",
+                    "Oscar-Claude Monet"
+                ],
+                "fr": [
+                    "Oscar-Claude Monet",
+                    "Monet"
+                ],
+                "hu": [
+                    "Claude Oscar Monet"
+                ],
+                "lv": [
+                    "Monē",
+                    "Claude Monē",
+                    "Oskars Klods Monē"
+                ],
+                "nl": [
+                    "Claude Oscar Monet"
+                ],
+                "pl": [
+                    "Oscar Claude Monet"
+                ],
+                "pt": [
+                    "Oscar-Claude Monet"
+                ],
+                "ro": [
+                    "Oscar-Claude Monet"
+                ],
+                "ru": [
+                    "Моне, Клод",
+                    "Оскар-Клод Моне",
+                    "Моне К.",
+                    "К. Моне"
+                ],
+                "sk": [
+                    "Claude Oscar Monet"
+                ],
+                "sl": [
+                    "Oscar-Claude Monet",
+                    "C. Monet",
+                    "Claude-Oscar Monet",
+                    "Monet",
+                    "Oscar Claude Monet"
+                ]
+            },
+            "dateOfBirth": [
+                "1840-11-14"
+            ],
+            "dateOfDeath": [
+                "1926-12-05"
+            ],
+            "note": {
+                "bg": [
+                    "Френски художник"
+                ],
+                "ca": [
+                    "Pintor francès (1840–1926)"
+                ],
+                "cs": [
+                    "Francouzský malíř, impresionista"
+                ],
+                "de": [
+                    "Französischer Maler des Impressionismus (1840–1926)"
+                ],
+                "el": [
+                    "Γάλλος ιμπρεσιονιστής ζωγράφος"
+                ],
+                "en": [
+                    "French painter (1840–1926)"
+                ],
+                "es": [
+                    "Pintor francés"
+                ],
+                "et": [
+                    "Prantsusmaa maalikunstnik"
+                ],
+                "eu": [
+                    "Margolari frantziarra"
+                ],
+                "fi": [
+                    "Ranskalainen taidemaalari (1840–1926)"
+                ],
+                "fr": [
+                    "Peintre impressionniste français"
+                ],
+                "ga": [
+                    "Péintéir Francach"
+                ],
+                "hu": [
+                    "Francia impresszionista festő"
+                ],
+                "it": [
+                    "Pittore impressionista francese (1840-1926)"
+                ],
+                "lv": [
+                    "Franču gleznotājs, viens no impresionisma dibinātājiem"
+                ],
+                "nl": [
+                    "Frans kunstschilder (1840–1926)"
+                ],
+                "no": [
+                    "Human"
+                ],
+                "pl": [
+                    "Francuski malarz"
+                ],
+                "pt": [
+                    "Pintor francês (1840-1926)"
+                ],
+                "ro": [
+                    "Pictor francez"
+                ],
+                "ru": [
+                    "Французский художник"
+                ],
+                "sk": [
+                    "Francúzsky maliar"
+                ],
+                "sl": [
+                    "Francoski impresionistični slikar (1840–1926)"
+                ],
+                "sv": [
+                    "Fransk konstnär"
+                ]
+            },
+            "isRelatedTo": [
+                "http://data.europeana.eu/agent/62174",
+                "http://data.europeana.eu/agent/56427",
+                "http://data.europeana.eu/agent/59803"
+            ],
+            "sameAs": [
+                "http://www.wikidata.org/entity/Q296",
+                "http://viaf.org/viaf/24605513",
+                "https://d-nb.info/gnd/11858345X",
+                "http://id.loc.gov/authorities/names/n79055527",
+                "http://vocab.getty.edu/ulan/500019484",
+                "http://data.bnf.fr/ark:/12148/cb11916491r",
+                "http://www.idref.fr/027329739/id",
+                "http://id.ndl.go.jp/auth/ndlna/00450326",
+                "https://www.freebase.com/m/01xnj",
+                "https://g.co/kg/m/01xnj",
+                "http://openlibrary.org/works/OL246383A",
+                "http://libris.kb.se/resource/auth/207632",
+                "http://datos.bne.es/resource/XX988583",
+                "http://data.bibliotheken.nl/id/thes/p069126062",
+                "https://livedata.bibsys.no/authority/1523345890207",
+                "https://livedata.bibsys.no/authority/90073112",
+                "http://id.worldcat.org/fast/35642",
+                "http://babelnet.org/rdf/s00019598n",
+                "http://nlg.okfn.gr/resource/authority/record75580",
+                "http://lod.nl.go.kr/resource/KAC199619147",
+                "https://libris.kb.se/jgvxzqr23mm1xc8",
+                "http://dbpedia.org/resource/Claude_Monet"
+            ],
+            "isAggregatedBy": {
+                "id": "http://data.europeana.eu/agent/59908#aggregation",
+                "type": "Aggregation",
+                "created": "2023-07-03T12:12:48Z",
+                "modified": "2026-10-04T09:53:42Z",
+                "pageRank": 129.0,
+                "recordCount": 107,
+                "score": 551386.0
+            }
+        },
+        {
+            "id": "http://data.europeana.eu/agent/44168",
+            "type": "Agent",
+            "isShownBy": {
+                "id": "https://www.internetculturale.it/iiif/image/2.1/U0lTTUVMX1NCTDAwNzg0NjE_/full/full/0/default.jpg",
+                "type": "WebResource",
+                "source": "http://data.europeana.eu/item/446/SISMEL_SBL0078461",
+                "thumbnail": "https://api.europeana.eu/thumbnail/v2/url.json?uri=https%3A%2F%2Fwww.internetculturale.it%2Fjmms%2FthumbnailProxy.jsp%3Ftype%3Dweb%26id%3Doai%253Awww.internetculturale.sbn.it%252FTeca%253A20%253ANT0000%253ASISMEL_SBL0078461&type=TEXT"
+            },
+            "prefLabel": {
+                "bg": "Франческо Филиппини",
+                "ca": "Francesco Filippini",
+                "cs": "Francesco Filippini",
+                "da": "Francesco Filippini",
+                "de": "Francesco Filippini",
+                "el": "Φραντσέσκο Φιλιππίνι",
+                "en": "Francesco Filippini",
+                "es": "Francesco Filippini",
+                "et": "Francesco Filippini",
+                "eu": "Francesco Filippini",
+                "fi": "Francesco Filippini",
+                "fr": "Francesco Filippini",
+                "ga": "Francesco Filippini",
+                "hr": "Francesco Filippini",
+                "hu": "Francesco Filippini",
+                "it": "Francesco Filippini",
+                "lt": "Francesco Filippini",
+                "lv": "Francesco Filippini",
+                "mt": "Francesco Filippini",
+                "nl": "Francesco Filippini",
+                "no": "Francesco Filippini",
+                "pl": "Francesco Filippini",
+                "pt": "Francesco Filippini",
+                "ro": "Francesco Filippini",
+                "ru": "Франческо Филиппини",
+                "sk": "Francesco Filippini",
+                "sl": "Francesco Filippini",
+                "sv": "Francesco Filippini"
+            },
+            "altLabel": {
+                "ca": [
+                    "El Claude Monet italiana"
+                ],
+                "cs": [
+                    "Ital Claude Monet"
+                ],
+                "da": [
+                    "Claude Monet på italiensk",
+                    "Italieneren Claude Monet"
+                ],
+                "de": [
+                    "Der Italiener Claude Monet"
+                ],
+                "el": [
+                    "Ο Ιταλός Κλοντ Μονέ"
+                ],
+                "en": [
+                    "The italian Monet",
+                    "The Philosopher",
+                    "The philosopher painter"
+                ],
+                "es": [
+                    "El Claude Monet italiano"
+                ],
+                "et": [
+                    "Claude Monet Itaalia"
+                ],
+                "fi": [
+                    "Italialainen Claude Monet"
+                ],
+                "fr": [
+                    "Le peintre philosophe",
+                    "L'italien Claude Monet"
+                ],
+                "it": [
+                    "Francesco Serafino Filippini",
+                    "Il Filosofo",
+                    "Il pittore filosofo"
+                ],
+                "nl": [
+                    "De Claude Monet Italiaanse"
+                ],
+                "pt": [
+                    "O Claude Monet italiano"
+                ],
+                "ro": [
+                    "Italianul Claude Monet"
+                ],
+                "ru": [
+                    "Клод Моне Итальянский",
+                    "Филиппини, Франческо",
+                    "Филиппини"
+                ],
+                "sl": [
+                    "Italijan Claude Monet"
+                ],
+                "sv": [
+                    "Den Claude Monet italienska",
+                    "Italienaren Claude Monet"
+                ]
+            },
+            "dateOfBirth": [
+                "1853-09-18"
+            ],
+            "dateOfDeath": [
+                "1895-03-06"
+            ],
+            "note": {
+                "bg": [
+                    "Италиански художник"
+                ],
+                "ca": [
+                    "Pintor i teòric italià"
+                ],
+                "cs": [
+                    "Italský malíř a teoretik"
+                ],
+                "da": [
+                    "Italiensk maler og teoretiker"
+                ],
+                "de": [
+                    "Italienischer Maler und Theoretiker"
+                ],
+                "el": [
+                    "Ιταλός ζωγράφος και θεωρητικός"
+                ],
+                "en": [
+                    "Italian painter and theorist (1853–1895)"
+                ],
+                "es": [
+                    "Pintor y teórico italiano"
+                ],
+                "et": [
+                    "Itaalia maalikunstnik ja teoreetik"
+                ],
+                "fi": [
+                    "Italialainen taidemaalari ja teoreetikko"
+                ],
+                "fr": [
+                    "Peintre italien"
+                ],
+                "it": [
+                    "Pittore italiano (1853-1895)"
+                ],
+                "mt": [
+                    "Pittur Taljan (1853–1895)"
+                ],
+                "nl": [
+                    "Italiaans kunstschilder (1853–1895)"
+                ],
+                "pt": [
+                    "Pintor e teórico italiano"
+                ],
+                "ro": [
+                    "Pictor și teoretician italian"
+                ],
+                "ru": [
+                    "Итальянский художник и теоретик"
+                ],
+                "sl": [
+                    "Italijanski slikar in teoretik"
+                ],
+                "sv": [
+                    "Italiensk målare och teoretiker"
+                ]
+            },
+            "isRelatedTo": [
+                "http://data.europeana.eu/agent/62710"
+            ],
+            "sameAs": [
+                "http://www.wikidata.org/entity/Q3749980",
+                "http://viaf.org/viaf/23019265",
+                "https://d-nb.info/gnd/122274539",
+                "http://id.loc.gov/authorities/names/nr00024066",
+                "http://vocab.getty.edu/ulan/500105715",
+                "http://data.bnf.fr/ark:/12148/cb14411029k",
+                "http://www.idref.fr/086108247/id",
+                "https://www.freebase.com/m/0h7pxrl",
+                "https://g.co/kg/m/0h7pxrl",
+                "http://openlibrary.org/works/OL1825733A",
+                "http://id.worldcat.org/fast/450850",
+                "http://dbpedia.org/resource/Francesco_Filippini"
+            ],
+            "isAggregatedBy": {
+                "id": "http://data.europeana.eu/agent/44168#aggregation",
+                "type": "Aggregation",
+                "created": "2023-07-03T11:28:33Z",
+                "modified": "2026-10-04T05:42:53Z",
+                "pageRank": 2.0,
+                "recordCount": 1,
+                "score": 290.0
+            }
+        }
+    ]
+}
