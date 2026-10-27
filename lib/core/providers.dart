@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:codedbykay_art_explorer/core/env.dart';
+import 'package:codedbykay_art_explorer/core/result.dart';
 import 'package:codedbykay_art_explorer/features/settings/settings_controller.dart';
 import 'package:codedbykay_art_explorer/sources/art_source.dart';
 import 'package:codedbykay_art_explorer/sources/europeana/europeana_source.dart';
@@ -41,6 +42,13 @@ final artSourceProvider = Provider.family<ArtSource, String>((ref, id) {
   final sources = ref.watch(artSourcesProvider);
   return sources.firstWhere((s) => s.id == id, orElse: () => sources.first);
 });
+
+/// Live category values for the Explore tab. Cached for the session and
+/// refreshed when the app language changes.
+final facetProvider =
+    FutureProvider.family<Result<List<FacetValue>>, FacetType>(
+      (ref, type) => ref.watch(primarySourceProvider).facet(type),
+    );
 
 /// The source used for search/explore. Single source for now.
 final primarySourceProvider = Provider<ArtSource>(

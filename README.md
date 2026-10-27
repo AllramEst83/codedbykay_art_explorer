@@ -13,7 +13,14 @@ Private-use app. It is not intended for publication (see [API key](#api-key)).
   - font size slider, font selector, line spacing and margins
   - read aloud, keep screen on, text selection, scroll position remembered
 - **Bookmarks** that open offline, with sort, search, collections, swipe to remove and undo.
-- **Discover**: artwork of the day, movements, themes, century and country browsing, "surprise me", recently viewed.
+- **Discover**: artwork of the day, a "More <subject>" row, "surprise me" and recently viewed. The daily pick and "surprise me" are drawn from the subjects Europeana reports, so there are no hand-written lists. Below those are live categories taken from the Europeana API, each with a "See all" list:
+  - subjects and techniques (named in your language)
+  - time periods (centuries and decades)
+  - countries
+  - museums and collections
+  - colours
+- **Category pages** have their own search box and filters, so you can narrow a category further.
+- **Smart search box**: typing `cubism 1900s france` turns the year and country into filter chips.
 - **Creator pages** with a biography and their works.
 - **Languages**: English and Swedish, switchable in Settings. Europeana and Wikipedia content is requested in the chosen language.
 - Material 3 with light, dark and system themes, and Material You colours on Android 12+.
@@ -22,8 +29,8 @@ Private-use app. It is not intended for publication (see [API key](#api-key)).
 
 | Source | Used for |
 |---|---|
-| Europeana Search and Record APIs | Search results, artwork metadata and images |
-| Europeana Entity API | Artist short description and dates |
+| Europeana Search and Record APIs | Search results, artwork metadata and images, and the facet counts behind the Discover categories |
+| Europeana Entity API | Artist short description and dates, and names for subject categories |
 | Wikipedia REST API | Artist biography and portrait (CC BY-SA); no key needed |
 
 Each artwork shows its own rights statement. Not everything in Europeana is openly reusable, and the Discover rows only show openly licensed works.

@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:codedbykay_art_explorer/features/history/history_controller.dart';
+import 'package:codedbykay_art_explorer/features/search/active_filter_chips.dart';
 import 'package:codedbykay_art_explorer/features/search/filter_sheet.dart';
 import 'package:codedbykay_art_explorer/features/search/paged_artwork_view.dart';
 import 'package:codedbykay_art_explorer/features/search/paged_search.dart';
+import 'package:codedbykay_art_explorer/features/search/search_input_parser.dart';
+import 'package:codedbykay_art_explorer/features/search/sort_button.dart';
 import 'package:codedbykay_art_explorer/l10n/l10n_ext.dart';
 import 'package:codedbykay_art_explorer/sources/art_source.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +23,9 @@ class SearchInputController extends Notifier<SearchInput> {
 
   void setFilters(SearchFilters filters) =>
       state = (text: state.text, filters: filters);
+
+  void commit(String text, SearchFilters filters) =>
+      state = (text: text, filters: filters);
 }
 
 /// Incremented when something (e.g. double-tapping the Search tab) asks the
@@ -89,10 +95,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   void _submit(String value) {
     _debounce?.cancel();
-    final text = value.trim();
-    ref.read(searchInputProvider.notifier).setText(text);
-    ref.read(recentSearchesProvider.notifier).add(text);
+    final raw = value.trim();
+    // Years and countries typed into the box become filter chips.
+    final parsed = parseSearchInput(raw);
+    final input = ref.read(searchInputProvider);
+    ref
+        .read(searchInputProvider.notifier)
+        .commit(parsed.text, mergeParsed(input.filters, parsed));
+    _controller.text = parsed.text;
+    ref.read(recentSearchesProvider.notifier).add(raw);
     FocusScope.of(context).unfocus();
+    setState(() {});
   }
 
   void _useSuggestion(String text) {
@@ -104,21 +117,29 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   Widget build(BuildContext context) {
     ref.listen(searchFocusRequestProvider, (_, _) => _focusNode.requestFocus());
     final input = ref.watch(searchInputProvider);
-    final hasQuery = input.text.isNotEmpty || input.filters.isActive;
+    // While typing (before submit) the raw text is interpreted the same way.
+    final parsed = parseSearchInput(input.text);
+    final filters = mergeParsed(input.filters, parsed);
+    final sort = ref.watch(sortProvider('search'));
+    final hasQuery = parsed.text.isNotEmpty || filters.isActive;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.searchTitle),
         actions: [
+          SortButton(
+            value: sort,
+            onSelected: ref.read(sortProvider('search').notifier).choose,
+          ),
           Badge(
-            isLabelVisible: input.filters.isActive,
-            label: Text('${input.filters.activeCount}'),
+            isLabelVisible: filters.isActive,
+            label: Text('${filters.activeCount}'),
             child: IconButton(
               tooltip: context.l10n.filters,
               icon: const Icon(Icons.tune),
               onPressed: () => showFilterSheet(
                 context,
-                initial: input.filters,
+                initial: filters,
                 onApply: ref.read(searchInputProvider.notifier).setFilters,
               ),
             ),
@@ -144,6 +165,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     onPressed: () {
                       _controller.clear();
                       _submit('');
+                      _focusNode.requestFocus();
                       setState(() {});
                     },
                   ),
@@ -152,11 +174,25 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         ),
       ),
-      body: hasQuery
-          ? _Results(
-              query: SearchQuery(text: input.text, filters: input.filters),
-            )
-          : _Suggestions(onPick: _useSuggestion),
+      body: Column(
+        children: [
+          ActiveFilterChips(
+            filters: input.filters,
+            onChanged: ref.read(searchInputProvider.notifier).setFilters,
+          ),
+          Expanded(
+            child: hasQuery
+                ? _Results(
+                    query: SearchQuery(
+                      text: parsed.text,
+                      filters: filters,
+                      sort: sort,
+                    ),
+                  )
+                : _Suggestions(onPick: _useSuggestion),
+          ),
+        ],
+      ),
     );
   }
 }

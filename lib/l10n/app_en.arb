@@ -136,6 +136,9 @@
   "sortOldest": "Oldest first",
   "sortTitle": "Title A–Z",
   "sort": "Sort",
+  "sortRelevance": "Relevance",
+  "sortMostComplete": "Most complete records",
+  "sortRecentlyAdded": "Recently added",
   "listView": "List view",
   "gridView": "Grid view",
   "addToCollection": "Add to collection",
@@ -149,8 +152,6 @@
   "artworkOfTheDay": "Artwork of the day",
   "retryArtworkOfTheDay": "Retry artwork of the day",
   "pickUp": "Pick up where you left off",
-  "movements": "Movements",
-  "themes": "Themes",
   "byCentury": "By century",
   "byCountry": "By country",
   "moreTopic": "More {topic}",
@@ -258,5 +259,45 @@
       }
     }
   },
-  "languageSystem": "System default"
+  "languageSystem": "System default",
+  "searchWithin": "Search in {title}",
+  "@searchWithin": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "browseSubjects": "Subjects & techniques",
+  "browseMuseums": "Museums & collections",
+  "browsePeriods": "Time periods",
+  "browseCountries": "Countries",
+  "browseColours": "Colours",
+  "seeAll": "See all",
+  "filterList": "Filter list",
+  "noMatches": "No matches",
+  "allOfPeriod": "All of {period}",
+  "@allOfPeriod": {
+    "placeholders": {
+      "period": {
+        "type": "String"
+      }
+    }
+  },
+  "colourTitle": "Colour {hex}",
+  "@colourTitle": {
+    "placeholders": {
+      "hex": {
+        "type": "String"
+      }
+    }
+  },
+  "decadeLabel": "{year}s",
+  "@decadeLabel": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  }
 }

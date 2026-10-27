@@ -3,6 +3,7 @@ import 'package:codedbykay_art_explorer/features/artwork/artwork_screen.dart';
 import 'package:codedbykay_art_explorer/features/artwork/creator_screen.dart';
 import 'package:codedbykay_art_explorer/features/artwork/viewer_screen.dart';
 import 'package:codedbykay_art_explorer/features/bookmarks/bookmarks_screen.dart';
+import 'package:codedbykay_art_explorer/features/explore/browse_all_screen.dart';
 import 'package:codedbykay_art_explorer/features/explore/collection_screen.dart';
 import 'package:codedbykay_art_explorer/features/explore/explore_screen.dart';
 import 'package:codedbykay_art_explorer/features/reader/reader_screen.dart';
@@ -84,6 +85,15 @@ GoRouter buildRouter() => GoRouter(
           CreatorScreen(name: state.uri.queryParameters['name'] ?? ''),
     ),
     GoRoute(
+      path: '/browse',
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (_, state) => BrowseAllScreen(
+        type:
+            FacetType.values.asNameMap()[state.uri.queryParameters['type']] ??
+            FacetType.concept,
+      ),
+    ),
+    GoRoute(
       path: '/collection',
       parentNavigatorKey: rootNavigatorKey,
       builder: (_, state) {
@@ -96,6 +106,9 @@ GoRouter buildRouter() => GoRouter(
               yearFrom: int.tryParse(q['yearFrom'] ?? ''),
               yearTo: int.tryParse(q['yearTo'] ?? ''),
               country: q['country'],
+              concept: q['concept'],
+              museum: q['museum'],
+              colour: q['colour'],
             ),
           ),
         );

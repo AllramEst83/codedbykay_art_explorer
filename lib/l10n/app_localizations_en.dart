@@ -260,6 +260,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sort => 'Sort';
 
   @override
+  String get sortRelevance => 'Relevance';
+
+  @override
+  String get sortMostComplete => 'Most complete records';
+
+  @override
+  String get sortRecentlyAdded => 'Recently added';
+
+  @override
   String get listView => 'List view';
 
   @override
@@ -297,12 +306,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pickUp => 'Pick up where you left off';
-
-  @override
-  String get movements => 'Movements';
-
-  @override
-  String get themes => 'Themes';
 
   @override
   String get byCentury => 'By century';
@@ -440,4 +443,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageSystem => 'System default';
+
+  @override
+  String searchWithin(String title) {
+    return 'Search in $title';
+  }
+
+  @override
+  String get browseSubjects => 'Subjects & techniques';
+
+  @override
+  String get browseMuseums => 'Museums & collections';
+
+  @override
+  String get browsePeriods => 'Time periods';
+
+  @override
+  String get browseCountries => 'Countries';
+
+  @override
+  String get browseColours => 'Colours';
+
+  @override
+  String get seeAll => 'See all';
+
+  @override
+  String get filterList => 'Filter list';
+
+  @override
+  String get noMatches => 'No matches';
+
+  @override
+  String allOfPeriod(String period) {
+    return 'All of $period';
+  }
+
+  @override
+  String colourTitle(String hex) {
+    return 'Colour $hex';
+  }
+
+  @override
+  String decadeLabel(String year) {
+    return '${year}s';
+  }
 }

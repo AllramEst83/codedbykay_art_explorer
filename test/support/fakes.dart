@@ -22,11 +22,17 @@ Artwork sampleArtwork([int n = 1]) => Artwork(
 );
 
 class FakeArtSource implements ArtSource {
-  FakeArtSource({this.pages = const [], this.detail, this.creator});
+  FakeArtSource({
+    this.pages = const [],
+    this.detail,
+    this.creator,
+    this.facets = const {},
+  });
 
   final List<Result<SearchPage>> pages;
   final ArtworkDetail? detail;
   final CreatorProfile? creator;
+  final Map<FacetType, List<FacetValue>> facets;
   final List<SearchQuery> queries = [];
   int _call = 0;
 
@@ -48,6 +54,12 @@ class FakeArtSource implements ArtSource {
   @override
   Future<Result<ArtworkDetail>> getArtwork(String id) async =>
       detail == null ? const Err(NotFoundFailure()) : Ok(detail!);
+
+  @override
+  Future<Result<List<FacetValue>>> facet(FacetType type) async =>
+      facets.containsKey(type)
+      ? Ok(facets[type]!)
+      : const Err(NetworkFailure());
 
   @override
   Future<Result<CreatorProfile>> getCreator(String name) async =>

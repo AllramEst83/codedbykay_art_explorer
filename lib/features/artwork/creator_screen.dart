@@ -3,6 +3,7 @@ import 'package:codedbykay_art_explorer/features/artwork/artwork_providers.dart'
 import 'package:codedbykay_art_explorer/features/artwork/artwork_screen.dart';
 import 'package:codedbykay_art_explorer/features/search/paged_artwork_view.dart';
 import 'package:codedbykay_art_explorer/features/search/paged_search.dart';
+import 'package:codedbykay_art_explorer/features/search/sort_button.dart';
 import 'package:codedbykay_art_explorer/l10n/l10n_ext.dart';
 import 'package:codedbykay_art_explorer/sources/art_source.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,26 @@ class CreatorScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final query = SearchQuery(filters: SearchFilters(creator: name));
+    final sort = ref.watch(sortProvider('creator:$name'));
+    final query = SearchQuery(
+      filters: SearchFilters(creator: name),
+      sort: sort,
+    );
     final works = ref.watch(pagedSearchProvider(query));
     final worksController = ref.read(pagedSearchProvider(query).notifier);
     final profile = ref.watch(creatorProvider(name));
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(name)),
+      appBar: AppBar(
+        title: Text(name),
+        actions: [
+          SortButton(
+            value: sort,
+            onSelected: ref.read(sortProvider('creator:$name').notifier).choose,
+          ),
+        ],
+      ),
       body: PagedArtworkView(
         state: works,
         onLoadMore: worksController.loadMore,

@@ -10,6 +10,7 @@ import 'package:codedbykay_art_explorer/features/search/paged_search.dart';
 import 'package:codedbykay_art_explorer/l10n/l10n_ext.dart';
 import 'package:codedbykay_art_explorer/sources/art_source.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
@@ -113,6 +114,11 @@ class _ArtworkScreenState extends ConsumerState<ArtworkScreen> {
         slivers: [
           SliverAppBar(
             pinned: true,
+            // The image can be any colour, so the bar and its icons stay
+            // dark/light regardless of the app theme.
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+            systemOverlayStyle: SystemUiOverlayStyle.light,
             expandedHeight: MediaQuery.sizeOf(context).height * 0.45,
             actions: [
               IconButton(
@@ -151,12 +157,27 @@ class _ArtworkScreenState extends ConsumerState<ArtworkScreen> {
                 child: Semantics(
                   button: true,
                   label: context.l10n.openFullScreen(shown.title),
-                  child: Hero(
-                    tag: 'art-${shown.key}',
-                    child: ArtImage(
-                      url: shown.thumbnailUrl ?? shown.imageUrl,
-                      fit: BoxFit.cover,
-                    ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Hero(
+                        tag: 'art-${shown.key}',
+                        child: ArtImage(
+                          url: shown.thumbnailUrl ?? shown.imageUrl,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      // Scrim so the status bar and app bar icons stay legible.
+                      const DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.center,
+                            colors: [Colors.black54, Colors.transparent],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

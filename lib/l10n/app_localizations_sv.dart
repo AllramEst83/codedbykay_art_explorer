@@ -260,6 +260,15 @@ class AppLocalizationsSv extends AppLocalizations {
   String get sort => 'Sortera';
 
   @override
+  String get sortRelevance => 'Relevans';
+
+  @override
+  String get sortMostComplete => 'Mest kompletta poster';
+
+  @override
+  String get sortRecentlyAdded => 'Nyligen tillagda';
+
+  @override
   String get listView => 'Listvy';
 
   @override
@@ -297,12 +306,6 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get pickUp => 'Fortsätt där du slutade';
-
-  @override
-  String get movements => 'Konstriktningar';
-
-  @override
-  String get themes => 'Teman';
 
   @override
   String get byCentury => 'Efter århundrade';
@@ -442,4 +445,48 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get languageSystem => 'Systemstandard';
+
+  @override
+  String searchWithin(String title) {
+    return 'Sök i $title';
+  }
+
+  @override
+  String get browseSubjects => 'Motiv och tekniker';
+
+  @override
+  String get browseMuseums => 'Museer och samlingar';
+
+  @override
+  String get browsePeriods => 'Tidsperioder';
+
+  @override
+  String get browseCountries => 'Länder';
+
+  @override
+  String get browseColours => 'Färger';
+
+  @override
+  String get seeAll => 'Visa alla';
+
+  @override
+  String get filterList => 'Filtrera listan';
+
+  @override
+  String get noMatches => 'Inga träffar';
+
+  @override
+  String allOfPeriod(String period) {
+    return 'Hela $period';
+  }
+
+  @override
+  String colourTitle(String hex) {
+    return 'Färg $hex';
+  }
+
+  @override
+  String decadeLabel(String year) {
+    return '$year-talet';
+  }
 }

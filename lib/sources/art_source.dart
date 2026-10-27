@@ -8,6 +8,26 @@ abstract interface class ArtSource {
   Future<Result<SearchPage>> search(SearchQuery query);
   Future<Result<ArtworkDetail>> getArtwork(String id);
   Future<Result<CreatorProfile>> getCreator(String name);
+
+  /// Live category values (with counts) for browsing, e.g. all countries.
+  Future<Result<List<FacetValue>>> facet(FacetType type);
+}
+
+/// The ways artwork can be grouped for browsing.
+enum FacetType { concept, country, period, museum, colour }
+
+/// One category value. [value] is what a filter needs (a URI, name, year or
+/// hex colour); [label] is what people read.
+class FacetValue {
+  const FacetValue({
+    required this.value,
+    required this.label,
+    required this.count,
+  });
+
+  final String value;
+  final String label;
+  final int count;
 }
 
 class Artwork {
@@ -130,6 +150,9 @@ class SearchFilters {
     this.country,
     this.openLicenseOnly = false,
     this.creator,
+    this.concept,
+    this.museum,
+    this.colour,
   });
 
   final int? yearFrom;
@@ -137,6 +160,12 @@ class SearchFilters {
   final String? country;
   final bool openLicenseOnly;
   final String? creator;
+
+  /// Category filters chosen from Explore. They are fixed by the page that
+  /// opened the results, so they are not counted as user-set filters.
+  final String? concept;
+  final String? museum;
+  final String? colour;
 
   bool get isActive => activeCount > 0;
 
@@ -152,12 +181,18 @@ class SearchFilters {
     String? Function()? country,
     bool? openLicenseOnly,
     String? Function()? creator,
+    String? Function()? concept,
+    String? Function()? museum,
+    String? Function()? colour,
   }) => SearchFilters(
     yearFrom: yearFrom != null ? yearFrom() : this.yearFrom,
     yearTo: yearTo != null ? yearTo() : this.yearTo,
     country: country != null ? country() : this.country,
     openLicenseOnly: openLicenseOnly ?? this.openLicenseOnly,
     creator: creator != null ? creator() : this.creator,
+    concept: concept != null ? concept() : this.concept,
+    museum: museum != null ? museum() : this.museum,
+    colour: colour != null ? colour() : this.colour,
   );
 
   @override
@@ -167,17 +202,32 @@ class SearchFilters {
       other.yearTo == yearTo &&
       other.country == country &&
       other.openLicenseOnly == openLicenseOnly &&
-      other.creator == creator;
+      other.creator == creator &&
+      other.concept == concept &&
+      other.museum == museum &&
+      other.colour == colour;
 
   @override
-  int get hashCode =>
-      Object.hash(yearFrom, yearTo, country, openLicenseOnly, creator);
+  int get hashCode => Object.hash(
+    yearFrom,
+    yearTo,
+    country,
+    openLicenseOnly,
+    creator,
+    concept,
+    museum,
+    colour,
+  );
 }
+
+/// How results are ordered. Sources map these to what their API supports.
+enum SearchSort { relevance, mostComplete, recentlyAdded }
 
 class SearchQuery {
   const SearchQuery({
     this.text = '',
     this.filters = const SearchFilters(),
+    this.sort = SearchSort.relevance,
     this.cursor,
     this.start,
     this.rows = 24,
@@ -185,6 +235,7 @@ class SearchQuery {
 
   final String text;
   final SearchFilters filters;
+  final SearchSort sort;
 
   /// Cursor from the previous [SearchPage]; null for the first page.
   final String? cursor;
@@ -193,20 +244,26 @@ class SearchQuery {
   final int? start;
   final int rows;
 
-  SearchQuery withCursor(String? cursor) =>
-      SearchQuery(text: text, filters: filters, cursor: cursor, rows: rows);
+  SearchQuery withCursor(String? cursor) => SearchQuery(
+    text: text,
+    filters: filters,
+    sort: sort,
+    cursor: cursor,
+    rows: rows,
+  );
 
   @override
   bool operator ==(Object other) =>
       other is SearchQuery &&
       other.text == text &&
       other.filters == filters &&
+      other.sort == sort &&
       other.cursor == cursor &&
       other.start == start &&
       other.rows == rows;
 
   @override
-  int get hashCode => Object.hash(text, filters, cursor, start, rows);
+  int get hashCode => Object.hash(text, filters, sort, cursor, start, rows);
 }
 
 class SearchPage {

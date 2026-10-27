@@ -109,14 +109,24 @@ class EuropeanaSource implements ArtSource {
       if (filters.country != null) 'COUNTRY:"${filters.country}"',
       if (filters.yearFrom != null || filters.yearTo != null)
         'YEAR:[${filters.yearFrom ?? '*'} TO ${filters.yearTo ?? '*'}]',
-      if (filters.creator != null) 'who:"${filters.creator}"',
+      if (filters.creator != null) 'who:"${_quote(filters.creator!)}"',
+      if (filters.concept != null) 'skos_concept:"${_quote(filters.concept!)}"',
+      if (filters.museum != null) 'DATA_PROVIDER:"${_quote(filters.museum!)}"',
+      if (filters.colour != null) 'COLOURPALETTE:${filters.colour}',
     ];
+    final sort = switch (q.sort) {
+      SearchSort.relevance => null,
+      SearchSort.mostComplete => 'COMPLETENESS desc',
+      SearchSort.recentlyAdded => 'timestamp_created desc',
+    };
     return {
       'query': text.isEmpty ? '*' : text,
       'theme': 'art',
       'qf': qf,
       'rows': q.rows,
       'profile': 'standard',
+      // europeana_id makes the order stable for cursor paging.
+      'sort': ?(sort == null ? null : '$sort,europeana_id asc'),
       if (filters.openLicenseOnly) 'reusability': 'open',
       if (q.start != null) 'start': q.start else 'cursor': q.cursor ?? '*',
     };
@@ -135,6 +145,119 @@ class EuropeanaSource implements ArtSource {
       return detail == null ? const Err(ParseFailure()) : Ok(detail);
     } on Object catch (e) {
       return Err(mapDioError(e));
+    }
+  }
+
+  static String _quote(String s) => s.replaceAll('"', r'\"');
+
+  static const _facetNames = {
+    FacetType.concept: ('skos_concept', 100),
+    FacetType.country: ('COUNTRY', 100),
+    FacetType.period: ('YEAR', 1000),
+    FacetType.museum: ('DATA_PROVIDER', 300),
+    FacetType.colour: ('COLOURPALETTE', 100),
+  };
+
+  static final _conceptId = RegExp(
+    r'^http://data\.europeana\.eu/concept/(\d+)$',
+  );
+
+  final Map<String, String> _conceptLabels = {};
+
+  @override
+  Future<Result<List<FacetValue>>> facet(FacetType type) async {
+    final (name, limit) = _facetNames[type]!;
+    try {
+      final response = await _dio.get<Map<String, dynamic>>(
+        '/record/v2/search.json',
+        queryParameters: {
+          'query': '*',
+          'theme': 'art',
+          'qf': ['TYPE:IMAGE', 'MEDIA:true', 'THUMBNAIL:true'],
+          'rows': 0,
+          'profile': 'facets',
+          'facet': name,
+          'f.$name.facet.limit': limit,
+        },
+      );
+      final values = parseFacet(response.data);
+      if (values == null) return const Err(ParseFailure());
+      if (type != FacetType.concept) return Ok(values);
+      return await _labelConcepts(values);
+    } on Object catch (e) {
+      return Err(mapDioError(e));
+    }
+  }
+
+  /// Reads the first facet of a Search API response. Public for testing.
+  static List<FacetValue>? parseFacet(Map<String, dynamic>? json) {
+    final facets = json?['facets'];
+    if (facets is! List<dynamic> || facets.isEmpty) return null;
+    final first = facets.first;
+    final fields = first is Map<String, dynamic> ? first['fields'] : null;
+    if (fields is! List<dynamic>) return null;
+    return [
+      for (final f in fields)
+        if (f is Map<String, dynamic> &&
+            f['label'] is String &&
+            f['count'] is num &&
+            (f['label'] as String).isNotEmpty)
+          FacetValue(
+            value: f['label'] as String,
+            label: f['label'] as String,
+            count: (f['count'] as num).toInt(),
+          ),
+    ];
+  }
+
+  /// Facet values for concepts are URIs; resolve them to names in the app
+  /// language. Concepts hosted elsewhere (e.g. Getty) cannot be named here
+  /// and are left out.
+  Future<Result<List<FacetValue>>> _labelConcepts(
+    List<FacetValue> values,
+  ) async {
+    final candidates = [
+      for (final v in values)
+        if (_conceptId.hasMatch(v.value)) v,
+    ];
+    const batch = 8;
+    for (var i = 0; i < candidates.length; i += batch) {
+      await Future.wait([
+        for (final v in candidates.skip(i).take(batch))
+          _resolveConcept(v.value),
+      ]);
+    }
+    final seen = <String>{};
+    final labelled = [
+      for (final v in candidates)
+        if (_conceptLabels[_labelKey(v.value)] case final label?)
+          if (seen.add(label.toLowerCase()))
+            FacetValue(value: v.value, label: label, count: v.count),
+    ];
+    if (candidates.isNotEmpty && labelled.isEmpty) {
+      return const Err(UnknownFailure());
+    }
+    return Ok(labelled);
+  }
+
+  String _labelKey(String uri) => '$lang:$uri';
+
+  Future<void> _resolveConcept(String uri) async {
+    final key = _labelKey(uri);
+    if (_conceptLabels.containsKey(key)) return;
+    final id = _conceptId.firstMatch(uri)?.group(1);
+    if (id == null) return;
+    try {
+      final response = await _dio.get<Map<String, dynamic>>(
+        '/entity/concept/base/$id.json',
+      );
+      final label = pickLocalized(
+        response.data?['prefLabel'],
+        lang: lang,
+      ).firstOrNull;
+      if (label != null) _conceptLabels[key] = label;
+    } on Object {
+      // Leave unlabelled; the value is simply not shown.
     }
   }
 

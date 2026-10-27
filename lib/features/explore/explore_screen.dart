@@ -4,6 +4,7 @@ import 'package:codedbykay_art_explorer/core/providers.dart';
 import 'package:codedbykay_art_explorer/core/result.dart';
 import 'package:codedbykay_art_explorer/core/widgets/art_image.dart';
 import 'package:codedbykay_art_explorer/core/widgets/artwork_card.dart';
+import 'package:codedbykay_art_explorer/features/explore/browse.dart';
 import 'package:codedbykay_art_explorer/features/explore/explore_data.dart';
 import 'package:codedbykay_art_explorer/features/history/history_controller.dart';
 import 'package:codedbykay_art_explorer/l10n/l10n_ext.dart';
@@ -12,18 +13,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-typedef TopicQuery = ({String query, int start, int rows});
+typedef TopicQuery = ({String? concept, int start, int rows});
 
-/// A single random-offset page for a topic (offset paging, max 1000 deep).
+/// A single offset page for a subject (offset paging, max 1000 deep).
 final topicRowProvider = FutureProvider.family<Result<SearchPage>, TopicQuery>(
   (ref, q) => ref
       .watch(primarySourceProvider)
       .search(
         SearchQuery(
-          text: q.query,
           start: q.start,
           rows: q.rows,
-          filters: const SearchFilters(openLicenseOnly: true),
+          filters: SearchFilters(openLicenseOnly: true, concept: q.concept),
         ),
       ),
 );
@@ -35,6 +35,9 @@ void openCollection(
   int? yearFrom,
   int? yearTo,
   String? country,
+  String? concept,
+  String? museum,
+  String? colour,
 }) => context.push(
   Uri(
     path: '/collection',
@@ -44,6 +47,9 @@ void openCollection(
       'yearFrom': ?yearFrom?.toString(),
       'yearTo': ?yearTo?.toString(),
       'country': ?country,
+      'concept': ?concept,
+      'museum': ?museum,
+      'colour': ?colour,
     },
   ).toString(),
 );
@@ -55,6 +61,13 @@ class ExploreScreen extends ConsumerStatefulWidget {
   ConsumerState<ExploreScreen> createState() => _ExploreScreenState();
 }
 
+/// Subjects the API reports; seeds the daily pick and "surprise me".
+final _subjectsProvider = Provider<List<FacetValue>>(
+  (ref) =>
+      ref.watch(facetProvider(FacetType.concept)).value?.valueOrNull ??
+      const [],
+);
+
 class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   final _random = Random();
   bool _surprising = false;
@@ -62,15 +75,21 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   Future<void> _surprise() async {
     if (_surprising) return;
     setState(() => _surprising = true);
-    final all = [...movements, ...themes];
-    final topic = all[_random.nextInt(all.length)];
+    final subjects = ref.read(_subjectsProvider);
+    final subject = subjects.isEmpty
+        ? null
+        : subjects[_random.nextInt(subjects.length)];
     final result = await ref
         .read(primarySourceProvider)
         .search(
           SearchQuery(
-            text: topic.query,
-            start: 1 + _random.nextInt(400),
+            start: pickOffset(
+              _random.nextInt(1 << 20),
+              subject?.count ?? 1000,
+              cap: 400,
+            ),
             rows: 1,
+            filters: SearchFilters(concept: subject?.value),
           ),
         );
     if (!mounted) return;
@@ -88,7 +107,11 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   Widget build(BuildContext context) {
     final history = ref.watch(historyProvider);
     final theme = Theme.of(context);
-    final today = topicOfTheDay(DateTime.now());
+    final subjects = ref.watch(_subjectsProvider);
+    final waiting = ref.watch(facetProvider(FacetType.concept)).isLoading;
+    final today = subjects.isEmpty
+        ? null
+        : subjects[dayOfYearSeed(DateTime.now()) % subjects.length];
 
     return Scaffold(
       appBar: AppBar(
@@ -110,63 +133,18 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
       body: ListView(
         padding: const EdgeInsets.only(bottom: 24),
         children: [
-          _ArtworkOfTheDay(topic: today),
+          _ArtworkOfTheDay(subject: today, waiting: waiting),
           if (history.isNotEmpty)
             _Section(
               title: context.l10n.pickUp,
               child: _ArtRow(artworks: history.take(12).toList()),
             ),
-          _Section(
-            title: context.l10n.movements,
-            child: _TopicChips(
-              topics: movements,
-              onTap: (t) =>
-                  openCollection(context, title: t.title, query: t.query),
-            ),
-          ),
-          _TopicRow(topic: today, seedOffset: 1),
-          _Section(
-            title: context.l10n.themes,
-            child: _TopicChips(
-              topics: themes,
-              onTap: (t) =>
-                  openCollection(context, title: t.title, query: t.query),
-            ),
-          ),
-          _Section(
-            title: context.l10n.byCentury,
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final c in centuries)
-                  ActionChip(
-                    label: Text(c.label),
-                    onPressed: () => openCollection(
-                      context,
-                      title: context.l10n.artOfCentury(c.label),
-                      yearFrom: c.from,
-                      yearTo: c.to,
-                    ),
-                  ),
-              ],
-            ),
-          ),
-          _Section(
-            title: context.l10n.byCountry,
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final c in browseCountries)
-                  ActionChip(
-                    label: Text(c),
-                    onPressed: () =>
-                        openCollection(context, title: c, country: c),
-                  ),
-              ],
-            ),
-          ),
+          if (today != null) _TopicRow(subject: today),
+          const BrowseSection(type: FacetType.concept),
+          const BrowseSection(type: FacetType.period),
+          const BrowseSection(type: FacetType.country),
+          const BrowseSection(type: FacetType.museum),
+          const BrowseSection(type: FacetType.colour),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Text(
@@ -200,23 +178,6 @@ class _Section extends StatelessWidget {
   );
 }
 
-class _TopicChips extends StatelessWidget {
-  const _TopicChips({required this.topics, required this.onTap});
-
-  final List<ExploreTopic> topics;
-  final ValueChanged<ExploreTopic> onTap;
-
-  @override
-  Widget build(BuildContext context) => Wrap(
-    spacing: 8,
-    runSpacing: 8,
-    children: [
-      for (final t in topics)
-        ActionChip(label: Text(t.title), onPressed: () => onTap(t)),
-    ],
-  );
-}
-
 class _ArtRow extends StatelessWidget {
   const _ArtRow({required this.artworks});
 
@@ -239,21 +200,20 @@ class _ArtRow extends StatelessWidget {
 
 /// Horizontal row of works for a topic, with loading and retry handling.
 class _TopicRow extends ConsumerWidget {
-  const _TopicRow({required this.topic, required this.seedOffset});
+  const _TopicRow({required this.subject});
 
-  final ExploreTopic topic;
-  final int seedOffset;
+  final FacetValue subject;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final q = (
-      query: topic.query,
-      start: 1 + (dayOfYearSeed(DateTime.now()) * 7 + seedOffset) % 200,
+      concept: subject.value,
+      start: pickOffset(dayOfYearSeed(DateTime.now()) * 7 + 1, subject.count),
       rows: 12,
     );
     final async = ref.watch(topicRowProvider(q));
     return _Section(
-      title: context.l10n.moreTopic(topic.title),
+      title: context.l10n.moreTopic(subject.label),
       child: async.when(
         data: (r) => r.when(
           ok: (page) => page.items.isEmpty
@@ -294,18 +254,22 @@ class _RowError extends StatelessWidget {
 
 /// One featured work, stable for the whole day.
 class _ArtworkOfTheDay extends ConsumerWidget {
-  const _ArtworkOfTheDay({required this.topic});
+  const _ArtworkOfTheDay({required this.subject, required this.waiting});
 
-  final ExploreTopic topic;
+  final FacetValue? subject;
+  final bool waiting;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final q = (
-      query: topic.query,
-      start: 1 + dayOfYearSeed(DateTime.now()) % 300,
+      concept: subject?.value,
+      start: pickOffset(dayOfYearSeed(DateTime.now()), subject?.count ?? 1000),
       rows: 1,
     );
-    final async = ref.watch(topicRowProvider(q));
+    // Wait for the subject list so the pick does not change after loading.
+    final async = waiting
+        ? const AsyncLoading<Result<SearchPage>>()
+        : ref.watch(topicRowProvider(q));
     final artwork = async.value?.valueOrNull?.items.firstOrNull;
     final theme = Theme.of(context);
     if (artwork == null) {

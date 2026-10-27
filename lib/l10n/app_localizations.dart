@@ -560,6 +560,24 @@ abstract class AppLocalizations {
   /// **'Sort'**
   String get sort;
 
+  /// No description provided for @sortRelevance.
+  ///
+  /// In en, this message translates to:
+  /// **'Relevance'**
+  String get sortRelevance;
+
+  /// No description provided for @sortMostComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Most complete records'**
+  String get sortMostComplete;
+
+  /// No description provided for @sortRecentlyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently added'**
+  String get sortRecentlyAdded;
+
   /// No description provided for @listView.
   ///
   /// In en, this message translates to:
@@ -637,18 +655,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pick up where you left off'**
   String get pickUp;
-
-  /// No description provided for @movements.
-  ///
-  /// In en, this message translates to:
-  /// **'Movements'**
-  String get movements;
-
-  /// No description provided for @themes.
-  ///
-  /// In en, this message translates to:
-  /// **'Themes'**
-  String get themes;
 
   /// No description provided for @byCentury.
   ///
@@ -877,6 +883,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System default'**
   String get languageSystem;
+
+  /// No description provided for @searchWithin.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in {title}'**
+  String searchWithin(String title);
+
+  /// No description provided for @browseSubjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Subjects & techniques'**
+  String get browseSubjects;
+
+  /// No description provided for @browseMuseums.
+  ///
+  /// In en, this message translates to:
+  /// **'Museums & collections'**
+  String get browseMuseums;
+
+  /// No description provided for @browsePeriods.
+  ///
+  /// In en, this message translates to:
+  /// **'Time periods'**
+  String get browsePeriods;
+
+  /// No description provided for @browseCountries.
+  ///
+  /// In en, this message translates to:
+  /// **'Countries'**
+  String get browseCountries;
+
+  /// No description provided for @browseColours.
+  ///
+  /// In en, this message translates to:
+  /// **'Colours'**
+  String get browseColours;
+
+  /// No description provided for @seeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get seeAll;
+
+  /// No description provided for @filterList.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter list'**
+  String get filterList;
+
+  /// No description provided for @noMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches'**
+  String get noMatches;
+
+  /// No description provided for @allOfPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'All of {period}'**
+  String allOfPeriod(String period);
+
+  /// No description provided for @colourTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour {hex}'**
+  String colourTitle(String hex);
+
+  /// No description provided for @decadeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{year}s'**
+  String decadeLabel(String year);
 }
 
 class _AppLocalizationsDelegate
