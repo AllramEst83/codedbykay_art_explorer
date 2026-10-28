@@ -1,7 +1,9 @@
 import 'package:codedbykay_art_explorer/core/widgets/artwork_card.dart';
 import 'package:codedbykay_art_explorer/core/widgets/state_views.dart';
+import 'package:codedbykay_art_explorer/features/artwork/artwork_sequence.dart';
 import 'package:codedbykay_art_explorer/features/search/paged_search.dart';
 import 'package:codedbykay_art_explorer/l10n/l10n_ext.dart';
+import 'package:codedbykay_art_explorer/sources/art_source.dart';
 import 'package:flutter/material.dart';
 
 int gridColumns(double width) => width >= 900
@@ -16,6 +18,7 @@ class PagedArtworkView extends StatefulWidget {
     required this.state,
     required this.onLoadMore,
     required this.onRetry,
+    this.query,
     this.headerSlivers = const [],
     this.emptyTitle,
     this.emptySubtitle,
@@ -25,6 +28,10 @@ class PagedArtworkView extends StatefulWidget {
   final PagedState state;
   final VoidCallback onLoadMore;
   final VoidCallback onRetry;
+
+  /// The query behind [state], so the detail screen can step through (and
+  /// keep loading) these results.
+  final SearchQuery? query;
   final List<Widget> headerSlivers;
   final String? emptyTitle;
   final String? emptySubtitle;
@@ -92,8 +99,13 @@ class _PagedArtworkViewState extends State<PagedArtworkView> {
         sliver: SliverGrid.builder(
           gridDelegate: _delegate(columns),
           itemCount: s.items.length,
-          itemBuilder: (_, i) =>
-              ArtworkCard(artwork: s.items[i], width: tileWidth),
+          itemBuilder: (_, i) => ArtworkCard(
+            artwork: s.items[i],
+            width: tileWidth,
+            sequence: widget.query == null
+                ? ArtworkSequence.items(s.items)
+                : ArtworkSequence.paged(widget.query!),
+          ),
         ),
       );
     }

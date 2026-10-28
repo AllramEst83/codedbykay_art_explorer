@@ -210,6 +210,7 @@ class _Results extends ConsumerWidget {
       state: state,
       onLoadMore: controller.loadMore,
       onRetry: controller.retry,
+      query: query,
       headerSlivers: [
         if (state.loadedOnce && state.total > 0)
           SliverToBoxAdapter(

@@ -4,6 +4,7 @@ import 'package:codedbykay_art_explorer/core/providers.dart';
 import 'package:codedbykay_art_explorer/core/result.dart';
 import 'package:codedbykay_art_explorer/core/widgets/art_image.dart';
 import 'package:codedbykay_art_explorer/core/widgets/artwork_card.dart';
+import 'package:codedbykay_art_explorer/features/artwork/artwork_sequence.dart';
 import 'package:codedbykay_art_explorer/features/explore/browse.dart';
 import 'package:codedbykay_art_explorer/features/explore/explore_data.dart';
 import 'package:codedbykay_art_explorer/features/history/history_controller.dart';
@@ -192,7 +193,11 @@ class _ArtRow extends StatelessWidget {
       separatorBuilder: (_, _) => const SizedBox(width: 12),
       itemBuilder: (_, i) => SizedBox(
         width: 150,
-        child: ArtworkCard(artwork: artworks[i], width: 150),
+        child: ArtworkCard(
+          artwork: artworks[i],
+          width: 150,
+          sequence: ArtworkSequence.items(artworks),
+        ),
       ),
     ),
   );

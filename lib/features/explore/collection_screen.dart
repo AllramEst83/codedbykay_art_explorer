@@ -147,6 +147,7 @@ class _CollectionScreenState extends ConsumerState<CollectionScreen> {
               state: state,
               onLoadMore: controller.loadMore,
               onRetry: controller.retry,
+              query: query,
               headerSlivers: [
                 SliverToBoxAdapter(
                   child: Padding(

@@ -1,4 +1,5 @@
 import 'package:codedbykay_art_explorer/core/widgets/art_image.dart';
+import 'package:codedbykay_art_explorer/features/artwork/artwork_sequence.dart';
 import 'package:codedbykay_art_explorer/features/bookmarks/bookmarks_controller.dart';
 import 'package:codedbykay_art_explorer/l10n/l10n_ext.dart';
 import 'package:codedbykay_art_explorer/sources/art_source.dart';
@@ -6,25 +7,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Opens the artwork detail screen.
-void openArtwork(BuildContext context, Artwork artwork) => context.push(
-  Uri(
-    path: '/artwork',
-    queryParameters: {'source': artwork.sourceId, 'id': artwork.id},
-  ).toString(),
-  extra: artwork,
+/// Opens the artwork detail screen. Pass the [sequence] the artwork was
+/// picked from to let the screen step to its neighbours.
+void openArtwork(
+  BuildContext context,
+  Artwork artwork, {
+  ArtworkSequence? sequence,
+}) => context.push(
+  artworkLocation(artwork),
+  extra: ArtworkOpenArgs(artwork, sequence: sequence),
 );
+
+String artworkLocation(Artwork artwork) => Uri(
+  path: '/artwork',
+  queryParameters: {'source': artwork.sourceId, 'id': artwork.id},
+).toString();
 
 String artworkSemanticLabel(Artwork a) =>
     a.creators.isEmpty ? a.title : '${a.title}, by ${a.creators.first}';
 
 class ArtworkCard extends ConsumerWidget {
-  const ArtworkCard({required this.artwork, this.width, super.key});
+  const ArtworkCard({
+    required this.artwork,
+    this.width,
+    this.sequence,
+    super.key,
+  });
 
   final Artwork artwork;
 
   /// Used to size the decoded image; null for grid tiles.
   final double? width;
+
+  /// The list this card is shown in, for stepping on the detail screen.
+  final ArtworkSequence? sequence;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,7 +54,7 @@ class ArtworkCard extends ConsumerWidget {
         clipBehavior: Clip.antiAlias,
         margin: EdgeInsets.zero,
         child: InkWell(
-          onTap: () => openArtwork(context, artwork),
+          onTap: () => openArtwork(context, artwork, sequence: sequence),
           child: Stack(
             fit: StackFit.expand,
             children: [

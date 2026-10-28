@@ -41,6 +41,7 @@ class CreatorScreen extends ConsumerWidget {
         state: works,
         onLoadMore: worksController.loadMore,
         onRetry: worksController.retry,
+        query: query,
         emptyTitle: context.l10n.noWorksFound,
         emptySubtitle: context.l10n.noWorksFoundHint,
         headerSlivers: [

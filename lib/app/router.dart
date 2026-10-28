@@ -1,5 +1,6 @@
 import 'package:codedbykay_art_explorer/app/shell_scaffold.dart';
 import 'package:codedbykay_art_explorer/features/artwork/artwork_screen.dart';
+import 'package:codedbykay_art_explorer/features/artwork/artwork_sequence.dart';
 import 'package:codedbykay_art_explorer/features/artwork/creator_screen.dart';
 import 'package:codedbykay_art_explorer/features/artwork/viewer_screen.dart';
 import 'package:codedbykay_art_explorer/features/bookmarks/bookmarks_screen.dart';
@@ -55,14 +56,38 @@ GoRouter buildRouter() => GoRouter(
     GoRoute(
       path: '/artwork',
       parentNavigatorKey: rootNavigatorKey,
-      builder: (_, state) {
+      pageBuilder: (_, state) {
         final extra = state.extra;
-        return ArtworkScreen(
+        final args = extra is ArtworkOpenArgs ? extra : null;
+        final screen = ArtworkScreen(
           // A new key per artwork so pushing another artwork resets state.
           key: ValueKey(state.uri.toString()),
           source: state.uri.queryParameters['source'] ?? 'europeana',
           id: state.uri.queryParameters['id'] ?? '',
-          preview: extra is Artwork ? extra : null,
+          preview: args?.artwork ?? (extra is Artwork ? extra : null),
+          sequence: args?.sequence,
+        );
+        final direction = args?.direction ?? 0;
+        if (direction == 0) {
+          return MaterialPage<void>(key: state.pageKey, child: screen);
+        }
+        // Stepping to a neighbour slides in from the side it lies on.
+        return CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: screen,
+          transitionsBuilder: (_, animation, _, child) => SlideTransition(
+            position:
+                Tween(
+                  begin: Offset(direction.toDouble(), 0),
+                  end: Offset.zero,
+                ).animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.easeOutCubic,
+                  ),
+                ),
+            child: child,
+          ),
         );
       },
     ),

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:codedbykay_art_explorer/core/env.dart';
 import 'package:codedbykay_art_explorer/core/result.dart';
+import 'package:codedbykay_art_explorer/core/translator.dart';
 import 'package:codedbykay_art_explorer/features/settings/settings_controller.dart';
 import 'package:codedbykay_art_explorer/sources/art_source.dart';
 import 'package:codedbykay_art_explorer/sources/europeana/europeana_source.dart';
@@ -22,6 +23,9 @@ final dataLanguageProvider = Provider<String>((ref) {
   return locale?.languageCode ??
       PlatformDispatcher.instance.locale.languageCode;
 });
+
+/// On-device translation of descriptions. Overridden with a fake in tests.
+final translatorProvider = Provider<Translator>((ref) => MlKitTranslator());
 
 /// All registered art sources. Add new provider modules here.
 final artSourcesProvider = Provider<List<ArtSource>>((ref) {

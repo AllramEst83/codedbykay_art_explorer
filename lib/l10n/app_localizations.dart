@@ -860,6 +860,48 @@ abstract class AppLocalizations {
   /// **'Place: {value}.'**
   String factPlace(String value);
 
+  /// No description provided for @translate.
+  ///
+  /// In en, this message translates to:
+  /// **'Translate'**
+  String get translate;
+
+  /// No description provided for @showOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'Show original'**
+  String get showOriginal;
+
+  /// No description provided for @translating.
+  ///
+  /// In en, this message translates to:
+  /// **'Translating…'**
+  String get translating;
+
+  /// No description provided for @machineTranslated.
+  ///
+  /// In en, this message translates to:
+  /// **'Machine translated'**
+  String get machineTranslated;
+
+  /// No description provided for @translationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t translate. Check your connection and try again.'**
+  String get translationFailed;
+
+  /// No description provided for @previousArtwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous artwork'**
+  String get previousArtwork;
+
+  /// No description provided for @nextArtwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Next artwork'**
+  String get nextArtwork;
+
   /// No description provided for @descriptionFrom.
   ///
   /// In en, this message translates to:

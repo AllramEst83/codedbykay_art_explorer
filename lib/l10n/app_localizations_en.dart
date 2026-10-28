@@ -427,6 +427,28 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get translate => 'Translate';
+
+  @override
+  String get showOriginal => 'Show original';
+
+  @override
+  String get translating => 'Translating…';
+
+  @override
+  String get machineTranslated => 'Machine translated';
+
+  @override
+  String get translationFailed =>
+      'Couldn\'t translate. Check your connection and try again.';
+
+  @override
+  String get previousArtwork => 'Previous artwork';
+
+  @override
+  String get nextArtwork => 'Next artwork';
+
+  @override
   String descriptionFrom(String provider) {
     return 'Description from $provider';
   }

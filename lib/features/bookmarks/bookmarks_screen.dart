@@ -1,6 +1,7 @@
 import 'package:codedbykay_art_explorer/core/widgets/art_image.dart';
 import 'package:codedbykay_art_explorer/core/widgets/artwork_card.dart';
 import 'package:codedbykay_art_explorer/core/widgets/state_views.dart';
+import 'package:codedbykay_art_explorer/features/artwork/artwork_sequence.dart';
 import 'package:codedbykay_art_explorer/features/bookmarks/bookmarks_controller.dart';
 import 'package:codedbykay_art_explorer/features/search/paged_artwork_view.dart';
 import 'package:codedbykay_art_explorer/l10n/app_localizations.dart';
@@ -164,6 +165,9 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
   Widget build(BuildContext context) {
     final all = ref.watch(bookmarksProvider);
     final visible = _visible(all);
+    final sequence = ArtworkSequence.items([
+      for (final b in visible) b.artwork,
+    ]);
     final collections = {
       for (final b in all)
         if (b.collection != null) b.collection!,
@@ -260,6 +264,7 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
                             child: ArtworkCard(
                               artwork: visible[i].artwork,
                               width: width / columns,
+                              sequence: sequence,
                             ),
                           ),
                         )
@@ -314,7 +319,11 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
                                   icon: const Icon(Icons.more_vert),
                                   onPressed: () => _showActions(b, all),
                                 ),
-                                onTap: () => openArtwork(context, b.artwork),
+                                onTap: () => openArtwork(
+                                  context,
+                                  b.artwork,
+                                  sequence: sequence,
+                                ),
                               ),
                             );
                           },

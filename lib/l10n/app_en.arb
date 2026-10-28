@@ -235,6 +235,13 @@
       }
     }
   },
+  "translate": "Translate",
+  "showOriginal": "Show original",
+  "translating": "Translating…",
+  "machineTranslated": "Machine translated",
+  "translationFailed": "Couldn't translate. Check your connection and try again.",
+  "previousArtwork": "Previous artwork",
+  "nextArtwork": "Next artwork",
   "descriptionFrom": "Description from {provider}",
   "@descriptionFrom": {
     "placeholders": {

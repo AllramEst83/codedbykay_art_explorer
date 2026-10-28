@@ -429,6 +429,28 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
+  String get translate => 'Översätt';
+
+  @override
+  String get showOriginal => 'Visa original';
+
+  @override
+  String get translating => 'Översätter…';
+
+  @override
+  String get machineTranslated => 'Maskinöversatt';
+
+  @override
+  String get translationFailed =>
+      'Det gick inte att översätta. Kontrollera anslutningen och försök igen.';
+
+  @override
+  String get previousArtwork => 'Föregående verk';
+
+  @override
+  String get nextArtwork => 'Nästa verk';
+
+  @override
   String descriptionFrom(String provider) {
     return 'Beskrivning från $provider';
   }
